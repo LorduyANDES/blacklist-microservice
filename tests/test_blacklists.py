@@ -67,13 +67,27 @@ def test_post_registra_ip_y_fecha_internamente(app, client, auth_headers):
         assert entry.created_at is not None
 
 
-def test_post_usa_la_ip_reenviada_por_el_balanceador(app, client, auth_headers):
+def test_post_usa_la_ip_del_cliente_detras_del_balanceador(app, client, auth_headers):
+    # Cadena real en Elastic Beanstalk: cliente -> ALB -> nginx. El ALB agrega
+    # la IP del cliente y nginx agrega la del ALB, de modo que la del cliente
+    # queda en la penultima posicion.
     headers = dict(auth_headers)
-    headers["X-Forwarded-For"] = "203.0.113.45"
+    headers["X-Forwarded-For"] = "203.0.113.45, 172.31.35.99"
     client.post("/blacklists", json=_payload(), headers=headers)
     with app.app_context():
         entry = db.session.execute(db.select(BlacklistEntry)).scalar_one()
         assert entry.request_ip == "203.0.113.45"
+
+
+def test_no_se_puede_falsificar_la_ip_con_un_solo_salto(app, client, auth_headers):
+    # Un cliente que inventa su propio X-Forwarded-For no alcanza los dos saltos
+    # de confianza, asi que no logra suplantar la IP registrada.
+    headers = dict(auth_headers)
+    headers["X-Forwarded-For"] = "1.2.3.4"
+    client.post("/blacklists", json=_payload(), headers=headers)
+    with app.app_context():
+        entry = db.session.execute(db.select(BlacklistEntry)).scalar_one()
+        assert entry.request_ip != "1.2.3.4"
 
 
 def test_blocked_reason_es_opcional(client, auth_headers):

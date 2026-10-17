@@ -61,9 +61,13 @@ def create_app(config_object: type = Config) -> Flask:
             "STATIC_BEARER_TOKEN no esta definido: solo se aceptaran tokens JWT firmados."
         )
 
-    # Detras del balanceador de Elastic Beanstalk, para que la IP registrada
-    # sea la del cliente y no la del proxy.
-    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
+    # En Elastic Beanstalk la cadena es cliente -> ALB -> nginx -> gunicorn, y
+    # cada proxy agrega un salto a X-Forwarded-For. Son dos saltos de confianza:
+    # con x_for=1 la IP registrada seria la del balanceador, no la del cliente.
+    proxy_hops = int(os.environ.get("PROXY_HOPS", "2"))
+    app.wsgi_app = ProxyFix(
+        app.wsgi_app, x_for=proxy_hops, x_proto=proxy_hops, x_host=proxy_hops
+    )
 
     db.init_app(app)
     ma.init_app(app)

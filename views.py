@@ -18,9 +18,8 @@ from models import (
 def _client_ip() -> str:
     """IP real del solicitante.
 
-    ProxyFix ya reescribio remote_addr con el primer salto de X-Forwarded-For,
-    por lo que detras del balanceador de Elastic Beanstalk este valor
-    corresponde al cliente y no al proxy.
+    ProxyFix ya resolvio X-Forwarded-For contando los saltos de confianza
+    (ALB y nginx), por lo que este valor corresponde al cliente y no al proxy.
     """
     return request.remote_addr or "unknown"
 
