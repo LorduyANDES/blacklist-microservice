@@ -1,0 +1,8 @@
+# Los archivos que consume la plataforma Linux de Elastic Beanstalk deben
+# conservar finales de linea LF: un CR final rompe el comando del Procfile.
+* text=auto eol=lf
+Procfile text eol=lf
+*.py text eol=lf
+*.config text eol=lf
+*.json text eol=lf
+*.md text eol=lf

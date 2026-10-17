@@ -1,0 +1,29 @@
+# Entornos virtuales
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Secretos y configuracion local: nunca se versionan
+.env
+*.env
+!.env.example
+
+# Elastic Beanstalk
+.elasticbeanstalk/
+*.zip
+
+# Bases de datos locales
+*.db
+*.sqlite3
+
+# Editores y sistema operativo
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
