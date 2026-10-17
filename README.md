@@ -158,7 +158,7 @@ Archivos que consume la plataforma:
 
 - `requirements.txt` — dependencias instaladas en cada instancia
 - `Procfile` — comando Gunicorn que sirve la aplicación en el puerto 8000
-- `.ebextensions/01_packages.config` — paquetes del sistema (`libpq-devel`, `gcc`)
+- `.ebextensions/01_packages.config` — opciones de plataforma (ruta del health check)
 
 ### 3. Variables de entorno del entorno
 
@@ -182,6 +182,6 @@ tests/test_blacklists.py       Pruebas del contrato del API
 requirements.txt               Dependencias de ejecución
 requirements-dev.txt           Dependencias de ejecución + pruebas
 Procfile                       Comando de arranque en Beanstalk
-.ebextensions/01_packages.config   Paquetes del sistema
+.ebextensions/01_packages.config   Opciones de plataforma
 postman/                       Colección y environment de Postman
 ```
