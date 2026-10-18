@@ -1,7 +1,7 @@
 # Proyecto 1 — Entrega 1
 ## Despliegue manual de un microservicio sobre un servicio de Plataforma como Servicio (PaaS)
 
-**Curso:** Cloud Computing
+**Programa:** Maestría en Inteligencia Artificial (MAIA)
 **Universidad de los Andes**
 
 **Autor:** Jesús Daniel Lorduy — j.lorduy@uniandes.edu.co

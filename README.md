@@ -1,7 +1,7 @@
 # Microservicio de Lista Negra Global de Emails
 
 Entrega 1 — Despliegue manual de un microservicio sobre un servicio de Plataforma como Servicio (PaaS).
-Curso de Cloud Computing, Universidad de los Andes.
+Maestría en Inteligencia Artificial (MAIA), Universidad de los Andes.
 
 Microservicio REST centralizado que permite a cientos de sistemas internos consultar si un email
 está en la lista negra global de la organización, así como agregar emails a esa lista.
