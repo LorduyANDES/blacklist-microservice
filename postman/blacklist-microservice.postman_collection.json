@@ -14,6 +14,11 @@
       "key": "email_sin_motivo",
       "value": "",
       "description": "Email aleatorio usado por el escenario sin blocked_reason."
+    },
+    {
+      "key": "token_invalido",
+      "value": "token-que-no-corresponde",
+      "description": "Token deliberadamente incorrecto, usado para comprobar que la API responde 401."
     }
   ],
   "item": [
@@ -516,7 +521,7 @@
           },
           {
             "key": "Authorization",
-            "value": "Bearer token-que-no-corresponde"
+            "value": "Bearer {{token_invalido}}"
           }
         ],
         "body": {
