@@ -24,7 +24,7 @@
 |---|---|
 | Repositorio GitHub | https://github.com/LorduyANDES/blacklist-microservice |
 | Aplicación desplegada | http://blacklist-env.eba-zgnk2x3x.us-east-2.elasticbeanstalk.com |
-| Documentación publicada de Postman | `[COMPLETAR: URL publicada de la colección]` |
+| Documentación publicada de Postman | https://documenter.getpostman.com/view/59043927/2sBYHSy11e |
 | Video de sustentación | `[COMPLETAR: URL del video, máximo 10 minutos]` |
 
 ---
@@ -265,7 +265,7 @@ no depende de ajustes manuales en la consola.
 
 ## 6. Documentación y escenarios de prueba en Postman
 
-**URL de la documentación publicada:** `[COMPLETAR]`
+**URL de la documentación publicada:** https://documenter.getpostman.com/view/59043927/2sBYHSy11e
 
 > 📸 **[CAPTURA 12]** — Colección de Postman abierta, mostrando la lista de escenarios.
 
