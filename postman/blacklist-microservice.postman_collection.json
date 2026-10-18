@@ -542,7 +542,7 @@
             "blacklists"
           ]
         },
-        "description": "Un Bearer Token que no corresponde al token estatico ni es un JWT valido se rechaza con 401."
+        "description": "Un token Bearer que no corresponde al token estatico ni es un JWT valido se rechaza con 401."
       },
       "response": []
     },
@@ -575,7 +575,7 @@
             "{{email_limpio}}"
           ]
         },
-        "description": "La consulta tambien exige Bearer Token."
+        "description": "La consulta tambien exige token Bearer."
       },
       "response": []
     },
