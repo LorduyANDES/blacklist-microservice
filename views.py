@@ -101,7 +101,7 @@ class BlacklistResource(Resource):
             "created": True,
             "message": "El email fue agregado a la lista negra global.",
             "data": blacklist_entry_schema.dump(entry),
-        }, 201
+        }, 200
 
 
 class BlacklistEmailResource(Resource):
