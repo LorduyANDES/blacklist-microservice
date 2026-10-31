@@ -27,3 +27,8 @@ __pycache__/
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Artefactos de la construccion de CI
+artefacto/
+reports/
+blacklist-microservice.zip

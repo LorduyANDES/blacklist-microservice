@@ -1,0 +1,74 @@
+version: 0.2
+
+# Pipeline de integracion continua del microservicio de lista negra global.
+#
+# El proceso instala las dependencias, ejecuta las pruebas unitarias y, solo si
+# todas pasan, genera el artefacto desplegable. Esta entrega cubre integracion
+# continua: el artefacto se construye y se publica, pero NO se despliega.
+#
+# Las pruebas corren contra SQLite en un archivo temporal, por lo que la
+# construccion no necesita levantar un motor de base de datos.
+
+env:
+  variables:
+    PYTHONUNBUFFERED: "1"
+    PIP_DISABLE_PIP_VERSION_CHECK: "1"
+
+phases:
+
+  install:
+    runtime-versions:
+      python: 3.13
+    commands:
+      - echo "=== Entorno de construccion ==="
+      - python --version
+      - echo "Commit $CODEBUILD_RESOLVED_SOURCE_VERSION"
+
+  pre_build:
+    commands:
+      - echo "=== Instalando dependencias ==="
+      - python -m pip install --upgrade pip
+      - pip install -r requirements-dev.txt
+      - echo "=== Ejecutando las pruebas unitarias ==="
+      # --junitxml permite que CodeBuild muestre el detalle de cada prueba en
+      # la pestana de informes, no solo el resultado global.
+      - python -m pytest -v --junitxml=reports/pruebas-unitarias.xml
+
+  build:
+    commands:
+      - echo "=== Generando el artefacto desplegable ==="
+      # El artefacto reproduce lo que espera la plataforma de Elastic
+      # Beanstalk: el codigo de la aplicacion, requirements.txt, el Procfile y
+      # la carpeta .ebextensions. Se excluye todo lo que no corre en
+      # produccion (pruebas, entorno virtual, documentacion, capturas).
+      - mkdir -p artefacto
+      - cp application.py config.py models.py auth.py views.py artefacto/
+      - cp requirements.txt Procfile artefacto/
+      - cp -r .ebextensions artefacto/
+      - cd artefacto && zip -r ../blacklist-microservice.zip . && cd ..
+      - echo "=== Contenido del artefacto ==="
+      - unzip -l blacklist-microservice.zip
+
+  post_build:
+    commands:
+      - echo "=== Construccion finalizada ==="
+      - echo "Artefacto generado - NO se despliega, esta entrega cubre solo CI"
+
+# El artefacto queda publicado en S3 por CodePipeline. El despliegue a
+# Beanstalk se hace de forma manual, como exige el enunciado de esta entrega.
+artifacts:
+  files:
+    - blacklist-microservice.zip
+  name: blacklist-microservice-$(date +%Y%m%d-%H%M%S)
+
+# El informe de pruebas se publica en la consola de CodeBuild, de modo que un
+# fallo indica que prueba concreta no paso.
+reports:
+  pruebas-unitarias:
+    files:
+      - reports/pruebas-unitarias.xml
+    file-format: JUNITXML
+
+cache:
+  paths:
+    - /root/.cache/pip/**/*
