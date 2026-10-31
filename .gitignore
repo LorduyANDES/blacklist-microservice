@@ -32,3 +32,6 @@ Thumbs.db
 artefacto/
 reports/
 blacklist-microservice.zip
+
+# Guion de sustentacion: material personal, no se versiona
+GUION-VIDEO-*
