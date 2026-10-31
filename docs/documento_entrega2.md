@@ -343,6 +343,12 @@ y el disparador declarado a nivel de pipeline:
 La etapa de construcción toma `CodigoFuente` como entrada y produce
 `ArtefactoDesplegable` como salida.
 
+> El enunciado pide que el pipeline se dispare con cada commit en `master`. Este
+> repositorio usa `main` como rama por omisión —el nombre que GitHub asigna por
+> defecto desde 2020— y cumple exactamente el mismo papel. Tanto la acción de origen
+> como el bloque `triggers` están declarados sobre `main`, que es la única rama
+> protegida de hecho por el pipeline.
+
 > **Figura 3** — Vista del pipeline con las dos etapas en verde. Nótese que la consola
 > identifica el origen como **«GitHub (a través de GitHub App)»**.
 > **Figura 4** — Configuración del pipeline: tipo V2, modo `QUEUED`, rol de servicio.
