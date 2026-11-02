@@ -185,3 +185,18 @@ Procfile                       Comando de arranque en Beanstalk
 .ebextensions/01_packages.config   Opciones de plataforma
 postman/                       Colección y environment de Postman
 ```
+
+## Integración continua
+
+Cada commit en `main` dispara automáticamente el pipeline `blacklist-microservice-ci`
+en AWS CodePipeline, que ejecuta las 25 pruebas unitarias sobre AWS CodeBuild y, solo si
+todas pasan, genera el artefacto desplegable y lo publica en S3.
+
+El despliegue sigue siendo manual: el pipeline cubre integración continua, no entrega
+continua.
+
+| Archivo | Papel en el pipeline |
+|---|---|
+| `buildspec.yml` | Fases de la construcción: dependencias, pruebas y empaquetado |
+| `requirements-dev.txt` | Dependencias de ejecución más `pytest` |
+| `tests/test_blacklists.py` | Pruebas del contrato del API |
