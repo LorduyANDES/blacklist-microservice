@@ -18,7 +18,7 @@
 | Repositorio GitHub | https://github.com/LorduyANDES/blacklist-microservice |
 | Aplicación desplegada | http://blacklist-env.eba-2qryjvm9.us-east-2.elasticbeanstalk.com |
 | Documentación publicada de Postman | https://documenter.getpostman.com/view/59043927/2sBYHSy11e |
-| Video de sustentación | `[COMPLETAR: URL del video, máximo 10 minutos]` |
+| Video de sustentación | https://youtu.be/RS4KcxyuI-Y |
 
 > La URL de la aplicación cambió respecto a la entrega 1 porque el entorno de
 > Elastic Beanstalk se recreó para esta entrega. El environment de Postman debe
