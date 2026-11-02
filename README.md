@@ -200,3 +200,5 @@ continua.
 | `buildspec.yml` | Fases de la construcción: dependencias, pruebas y empaquetado |
 | `requirements-dev.txt` | Dependencias de ejecución más `pytest` |
 | `tests/test_blacklists.py` | Pruebas del contrato del API |
+ Pipeline verificado el 2 de noviembre de 2026
+ 
