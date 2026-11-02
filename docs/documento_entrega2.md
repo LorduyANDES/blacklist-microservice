@@ -355,8 +355,9 @@ La etapa de construcción toma `CodigoFuente` como entrada y produce
 
 ### 6.2 Evidencia del disparo automático
 
-La columna *Desencadenador* del historial de ejecuciones es la prueba directa. Las
-cuatro ejecuciones más recientes aparecen como:
+La columna *Desencadenador* del historial de ejecuciones es la prueba directa. Todas
+las ejecuciones posteriores a la instalación de la aplicación de GitHub aparecen
+como:
 
 ```
 Commit <sha> enviado en LorduyANDES/blacklist-microservice/main
@@ -378,10 +379,16 @@ y su tipo de disparador en la API es `WebhookV2`, es decir, originadas por un ev
 }
 ```
 
-Las dos ejecuciones más antiguas se conservan en el historial y **no** fueron
-automáticas: una es `CreatePipeline` (la que AWS lanza al crear el pipeline) y la otra
+Solo las dos ejecuciones más antiguas del historial **no** fueron automáticas: una es
+`CreatePipeline` (la que AWS lanza al crear el pipeline) y la otra
 `StartPipelineExecution` (lanzada a mano durante la construcción del pipeline, antes de
 que el disparador funcionara). La sección 8 explica por qué.
+
+Conviene señalar que el historial sigue creciendo por sí solo. Los commits que
+publicaron esta misma documentación en el repositorio dispararon el pipeline sin
+ninguna intervención, y las pruebas se ejecutaron en todos ellos. No son ejecuciones
+preparadas para la entrega: son el comportamiento normal del repositorio desde que el
+disparador funciona.
 
 > **Figura 5** — Historial de ejecuciones con la columna *Desencadenador*.
 > **Figura 6** — Commits de la rama `main` en GitHub que originaron esas ejecuciones.
@@ -393,6 +400,9 @@ que el disparador funcionara). La sección 8 explica por qué.
 Para demostrar los dos caminos se introdujo deliberadamente una regresión y después se
 corrigió. Ambos cambios se publicaron como commits normales en `main`, de modo que
 **las dos ejecuciones se dispararon solas**.
+
+La tabla siguiente recoge las cuatro ejecuciones de esa demostración. El historial
+completo contiene más, posteriores, correspondientes a los commits de documentación.
 
 | Ejecución | Commit | Mensaje | Resultado | Artefacto |
 |---|---|---|---|---|
