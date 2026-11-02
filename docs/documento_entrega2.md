@@ -297,8 +297,9 @@ de origen).
 
 > **Figura 12** — Log de la construcción exitosa: contenido del artefacto, fin de la
 > fase `BUILD` y mensaje que confirma que no se despliega.
-> **Figura 13** — Artefactos almacenados en S3. Hay **tres**, uno por cada construcción
-> exitosa; las construcciones fallidas no dejaron ninguno.
+> **Figura 13** — Artefactos almacenados en S3. Hay **uno por cada construcción
+> exitosa, y ninguno de las fallidas**. El número crece con cada commit que pasa las
+> pruebas, de modo que en la consola será mayor que en esta captura.
 
 ---
 
@@ -602,14 +603,45 @@ variable `base_url` del environment con la URL vigente.
 
 > **Figura 18** — Entorno de Elastic Beanstalk en estado Ok.
 
+### 10.1 Hallazgo: la salud del entorno oscila por tráfico de escaneo
+
+El registro de eventos del entorno muestra transiciones de `Ok` a `Severe` y de vuelta
+a `Ok` en los días siguientes al despliegue, con mensajes del tipo:
+
+```
+Environment health has transitioned from Ok to Severe.
+93.8 % of the requests are erroring with HTTP 4xx.
+```
+
+No corresponden a ningún fallo del servicio. La URL del entorno es pública, y recibe
+tráfico automatizado de escáneres de internet que prueban rutas comunes. El
+microservicio responde a ese tráfico exactamente como debe:
+
+| Petición | Respuesta |
+|---|---|
+| `GET /` | 200 |
+| `GET /blacklists/<email>` sin token | **401** |
+| `GET /wp-admin`, `GET /.env`, `GET /admin` | **404** |
+
+El modelo de salud mejorada de Elastic Beanstalk contabiliza las respuestas 4xx como
+errores de la aplicación, sin distinguir entre «la aplicación está rota» y «la
+aplicación está rechazando correctamente peticiones no autorizadas». Un microservicio
+cuyo contrato consiste precisamente en devolver 401 a quien no presenta un token
+válido va a parecer enfermo ante ese modelo cada vez que alguien lo escanee.
+
+**Lección:** en un servicio autenticado, el porcentaje de 4xx no es un indicador útil de
+salud. El health check debe apuntar a una ruta pública y liviana —como hace este
+proyecto con `GET /`— y, en un entorno real, convendría ajustar las reglas de salud
+mejorada para que las respuestas 4xx no degraden el estado del entorno.
+
 ---
 
 ## 11. Conclusiones
 
-1. **El pipeline cumple su función discriminante.** De cuatro ejecuciones disparadas por
-   commits, dos pasaron y dos fallaron, y las que fallaron no dejaron artefacto. La
-   diferencia entre un pipeline que compila y uno que *verifica* está precisamente en
-   que el segundo sabe decir que no.
+1. **El pipeline cumple su función discriminante.** De las cuatro ejecuciones de la
+   demostración, todas disparadas por commits, dos pasaron y dos fallaron, y las que
+   fallaron no dejaron artefacto. La diferencia entre un pipeline que compila y uno que
+   *verifica* está precisamente en que el segundo sabe decir que no.
 
 2. **El orden de las fases es una decisión de diseño, no un detalle.** Poner las pruebas
    en `pre_build` convierte el empaquetado en una consecuencia de que las pruebas pasen,
