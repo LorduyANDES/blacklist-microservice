@@ -1,0 +1,37 @@
+# Lo que no debe entrar en la imagen: ni secretos, ni material de la entrega,
+# ni nada que no corra en produccion.
+
+# Credenciales
+.env
+*.env
+!.env.example
+
+# Entornos virtuales y cache de Python
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Control de versiones
+.git/
+.gitignore
+.gitattributes
+
+# Pruebas: se ejecutan en CodeBuild, no dentro de la imagen
+tests/
+conftest.py
+requirements-dev.txt
+
+# Material de las entregas
+docs/
+postman/
+*.md
+*.pdf
+*.docx
+*.mp4
+
+# Especifico de otras plataformas
+.ebextensions/
+Procfile
+buildspec.yml
