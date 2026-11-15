@@ -18,7 +18,7 @@
 | Repositorio GitHub | https://github.com/LorduyANDES/blacklist-microservice |
 | Aplicación sobre Fargate | http://blacklist-alb-1630846931.us-east-2.elb.amazonaws.com |
 | Documentación publicada de Postman | https://documenter.getpostman.com/view/59043927/2sBYHSy11e |
-| Video de sustentación | `[COMPLETAR: URL del video, máximo 10 minutos]` |
+| Video de sustentación | https://www.youtube.com/watch?v=4CyqHhOnwIQ |
 
 > La URL cambió respecto a las entregas anteriores: el microservicio ya no corre sobre
 > Elastic Beanstalk sino sobre contenedores en Fargate, detrás de un balanceador nuevo.
