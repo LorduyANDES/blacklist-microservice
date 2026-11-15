@@ -68,9 +68,15 @@ phases:
       - cat imageDetail.json
       - echo "=== Construccion finalizada ==="
 
+# Los tres archivos que necesita la etapa de despliegue:
+#   imageDetail.json  la imagen recien publicada
+#   taskdef.json      la definicion de tarea, con <IMAGE1_NAME> por sustituir
+#   appspec.yaml      que servicio actualizar y por donde entra el trafico
 artifacts:
   files:
     - imageDetail.json
+    - taskdef.json
+    - appspec.yaml
   name: blacklist-microservice-$(date +%Y%m%d-%H%M%S)
 
 reports:

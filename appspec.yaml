@@ -1,0 +1,23 @@
+# Especificacion de despliegue para AWS CodeDeploy sobre ECS Fargate.
+#
+# CodeDeploy lee este archivo para saber que servicio actualizar y por donde
+# entra el trafico. El marcador <TASK_DEFINITION> lo sustituye CodePipeline por
+# la revision que acaba de registrar con la imagen recien construida.
+#
+# El despliegue es azul/verde: CodeDeploy levanta las tareas nuevas en el grupo
+# de destino libre, espera a que el balanceador las declare sanas y solo
+# entonces conmuta el trafico. Si no llegan a estar sanas, revierte sin que el
+# trafico haya pasado por ellas.
+
+version: 0.0
+
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: <TASK_DEFINITION>
+        LoadBalancerInfo:
+          # Deben coincidir con el contenedor y el puerto de taskdef.json.
+          ContainerName: "blacklist"
+          ContainerPort: 8000
+        PlatformVersion: "LATEST"

@@ -1,0 +1,40 @@
+{
+  "family": "blacklist-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::494883819646:role/blacklist-ecs-execution-role",
+  "taskRoleArn": "arn:aws:iam::494883819646:role/blacklist-ecs-task-role",
+  "containerDefinitions": [
+    {
+      "name": "blacklist",
+      "image": "<IMAGE1_NAME>",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8000,
+          "protocol": "tcp"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "DATABASE_URL",
+          "valueFrom": "arn:aws:ssm:us-east-2:494883819646:parameter/blacklist/database_url"
+        },
+        {
+          "name": "STATIC_BEARER_TOKEN",
+          "valueFrom": "arn:aws:ssm:us-east-2:494883819646:parameter/blacklist/static_bearer_token"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/blacklist-microservice",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}
