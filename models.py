@@ -59,7 +59,7 @@ class BlacklistCreateSchema(ma.Schema):
         required=False,
         load_default=None,
         allow_none=True,
-        validate=validate.Length(max=255),
+        validate=validate.Length(max=200),
     )
 
 
