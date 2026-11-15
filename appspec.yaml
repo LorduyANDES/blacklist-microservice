@@ -19,5 +19,5 @@ Resources:
         LoadBalancerInfo:
           # Deben coincidir con el contenedor y el puerto de taskdef.json.
           ContainerName: "blacklist"
-          ContainerPort: 8080
+          ContainerPort: 8000
         PlatformVersion: "LATEST"
